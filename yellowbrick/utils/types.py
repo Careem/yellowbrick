@@ -97,7 +97,10 @@ def is_regressor(estimator):
     """
 
     # Test the _estimator_type property
-    return getattr(estimator, "_estimator_type", None) == "regressor"
+    is_sklearn_regressor = getattr(estimator, "_estimator_type", None) == "regressor"
+    is_catboost_regressor = type(estimator).__name__ == "CatBoostRegressor"
+
+    return is_sklearn_regressor or is_catboost_regressor
 
 # Alias for closer name to isinstance and issubclass
 isregressor = is_regressor
