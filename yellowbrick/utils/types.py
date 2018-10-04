@@ -21,6 +21,7 @@ import inspect
 import numpy as np
 
 from sklearn.base import BaseEstimator
+from catboost import CatBoost
 
 
 ##########################################################################
@@ -37,10 +38,17 @@ def is_estimator(model):
         The object to test if it is a Scikit-Learn clusterer, especially a
         Scikit-Learn estimator or Yellowbrick visualizer
     """
-    if inspect.isclass(model):
-        return issubclass(model, BaseEstimator)
+    is_sklearn_estimator = False
+    is_catboost_estimator = False
 
-    return isinstance(model, BaseEstimator)
+    if inspect.isclass(model):
+        is_sklearn_estimator = issubclass(model, BaseEstimator)
+        is_catboost_estimator = issubclass(model, CatBoost)
+    else:
+        is_sklearn_estimator = isinstance(model, BaseEstimator)
+        is_catboost_estimator = isinstance(model, CatBoost)
+
+    return is_sklearn_estimator or is_catboost_estimator
 
 # Alias for closer name to isinstance and issubclass
 isestimator = is_estimator
@@ -63,7 +71,10 @@ def is_classifier(estimator):
     """
 
     # Test the _estimator_type property
-    return getattr(estimator, "_estimator_type", None) == "classifier"
+    is_sklearn_classifier = getattr(estimator, "_estimator_type", None) == "classifier"
+    is_catboost_classifier = type(estimator).__name__ == "CatBoostClassifier"
+
+    return is_sklearn_classifier or is_catboost_classifier
 
 # Alias for closer name to isinstance and issubclass
 isclassifier = is_classifier
