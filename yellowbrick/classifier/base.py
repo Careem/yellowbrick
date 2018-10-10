@@ -101,7 +101,7 @@ class ClassificationScoreVisualizer(ScoreVisualizer):
 
         """
         # Fit the inner estimator
-        self.estimator.fit(X, y)
+        self.estimator.fit(X, y, **kwargs)
 
         # Extract the classes from the estimator
         if self.classes_ is None:

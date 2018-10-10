@@ -301,7 +301,7 @@ class ModelVisualizer(Visualizer, Wrapper):
         self : visualizer
             The fit method must always return self to support pipelines.
         """
-        self.estimator.fit(X, y)
+        self.estimator.fit(X, y, **kwargs)
         return self
 
 
