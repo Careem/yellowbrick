@@ -15,6 +15,7 @@ Abstract base classes and interface for Yellowbrick.
 """
 
 import matplotlib.pyplot as plt
+plt.switch_backend('agg')
 import math
 
 from .utils.wrapper import Wrapper
